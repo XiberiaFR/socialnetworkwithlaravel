@@ -17,8 +17,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
+        'prenom',
+        'nom',
         'password',
     ];
 
@@ -40,4 +40,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'roles_id');
+    }
+
+    public function pomgo() {
+        return $this->hasMany(Pomgo::class);
+    }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
+    }
 }
