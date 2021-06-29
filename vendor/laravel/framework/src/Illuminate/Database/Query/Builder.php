@@ -1095,7 +1095,7 @@ class Builder
     /**
      * Add an "or where null" clause to the query.
      *
-     * @param  string  $column
+     * @param  string|array  $column
      * @return $this
      */
     public function orWhereNull($column)
@@ -1983,16 +1983,6 @@ class Builder
             throw new InvalidArgumentException('Order direction must be "asc" or "desc".');
         }
 
-        if (is_array($this->{$this->unions ? 'unionOrders' : 'orders'})) {
-            foreach ($this->{$this->unions ? 'unionOrders' : 'orders'} as $key => $value) {
-                if (isset($value['column']) && $value['column'] === $column) {
-                    $this->{$this->unions ? 'unionOrders' : 'orders'}[$key]['direction'] = $direction;
-
-                    return $this;
-                }
-            }
-        }
-
         $this->{$this->unions ? 'unionOrders' : 'orders'}[] = [
             'column' => $column,
             'direction' => $direction,
@@ -2417,7 +2407,7 @@ class Builder
      * @param  array  $columns
      * @param  string  $cursorName
      * @param  string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
      * @throws \Illuminate\Pagination\CursorPaginationException
      */
     public function cursorPaginate($perPage = 15, $columns = ['*'], $cursorName = 'cursor', $cursor = null)

@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Pages concernant l'utilisateur //
+Route::resource('/user', App\Http\Controllers\UserController::class)->except('store', 'create', 'destroy');
