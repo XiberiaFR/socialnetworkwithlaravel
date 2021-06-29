@@ -29,5 +29,18 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    data: { message: 'Mon message'}
+    data: {users: []},
+    created: function() {
+        // Alias the component instance as `vm`, so that we
+        // can access it inside the promise function
+        var vm = this;
+        // Fetch our array of posts from an API
+        fetch("api/users")
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                vm.users = data;
+            });
+    }
 });

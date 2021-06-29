@@ -1,20 +1,22 @@
 <template>
-    <div class="container">
+    <div class="card">
         ...
-              <div class="card-body">
-                 {{ message }}
-              </div>
-        ...
+                <ol>
+                    <li v-for="user in users" :key="user.id">
+                        {{ user.prenom }} [<a :href="'mailto:' + user.email ">{{ user.email }}</a>], créé le {{ user.created_at }}
+                    </li>
+                </ol>
+      ...
     </div>
 </template>
 
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            console.log('ExampleComponent mounted.')
         },
         props: {
-            message: String
+            users: Array
         }
     }
 </script>

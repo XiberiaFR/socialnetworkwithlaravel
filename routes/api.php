@@ -18,6 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('users', App\Http\Controllers\UserController::class)->only([
+Route::resource('users', App\Http\Controllers\VueController::class)->only([
     'index', 'show'
 ]);
