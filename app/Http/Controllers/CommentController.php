@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class CommentController extends Controller
 {
@@ -24,7 +26,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -35,7 +37,31 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'comment-content' => ['required', 'string', 'max:500'],
+            'pomgo-id-comment' => ['required', 'integer'],
+            'image_comment' => ['mimes:jpeg,png,jpg,gif,svg|max:2048'],
+        ]);
+        
+        if(!empty($request->image_comment)) {
+        $imageName = time() . '.' . $request->image_comment->extension();
+        $request->image_comment->move(public_path('images'), $imageName);
+        }
+
+        Comment::create([
+            'content' => $request->input('comment-content'),
+            'pomgo_id' => $request->input('pomgo-id-comment'),
+            'user_id' => Auth::user()->id,
+        ]);
+        
+        if(!empty($request->image_comment)) {
+        Comment::create([
+            'image' => $imageName,
+        ]);
+        }
+        
+        return back()
+            ->with('message', 'Félicitations, votre commentaire est publié.');
     }
 
     /**

@@ -10002,3 +10002,14 @@ h3 {
     border-color: #dee2e6;
   }
 }
+.bg-image {
+  background-image: url("/images/backgroundhome.jpg");
+  height: 95vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.bg-opacity {
+  background-color: #ffffff9c;
+}

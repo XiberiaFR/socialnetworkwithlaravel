@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ImageUploadController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,5 +22,17 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Pages concernant l'utilisateur //
+// Concernant l'utilisateur //
 Route::resource('/user', App\Http\Controllers\UserController::class)->except('store', 'create', 'destroy');
+
+// Concernant les pomgos //
+
+Route::get('image-upload', [ ImageUploadController::class, 'imageUpload' ])->name('image.upload');
+
+Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ])->name('image.upload.post');
+
+Route::resource('/pomgo', App\Http\Controllers\PomgoController::class);
+
+// Concernant les commentaires //
+
+Route::resource('/comment', App\Http\Controllers\CommentController::class);

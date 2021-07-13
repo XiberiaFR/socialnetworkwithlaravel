@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pomgo;
 use Illuminate\Http\Request;
+use App\Models\Pomgo;
+use Illuminate\Support\Facades\Auth;
+use GrahamCampbell\ResultType\Success;
 
 class PomgoController extends Controller
 {
@@ -35,16 +37,27 @@ class PomgoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'pomgo_text' => ['required', 'string', 'max:500'],
+            'pomgo_img' => ['required', 'string'],
+        ]);
+        Pomgo::create([
+            'content' => $request->input('pomgo_text'),
+            'image' => $request->input('pomgo_img'),
+            'tags' => $request->input('pomgo_tags'),
+            'user_id' => Auth::user()->id,
+    ]);
+    return back()
+    ->with('message', 'Félicitations, votre pomgo est publié.');
+        }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pomgo  $pomgo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Pomgo $pomgo)
+    public function show($id)
     {
         //
     }
@@ -52,33 +65,43 @@ class PomgoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pomgo  $pomgo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Pomgo $pomgo)
     {
-        //
+        return view('pomgo.edit', compact('pomgo'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pomgo  $pomgo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Pomgo $pomgo)
     {
-        //
+        $request->validate([
+            'pomgo_text' => ['required', 'string', 'max:500'],
+            'pomgo_img' => ['string'],
+        ]);
+        $pomgo->content = $request->input('pomgo_text');
+        if(!empty($request->pomgo_img)) {
+            $pomgo->image = $request->input('pomgo_img');
+        }        
+        $pomgo->tags = $request->input('pomgo_tags');
+        $pomgo->save();
+        return redirect('home')->with('message', 'Félicitations, pomgo modifié');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pomgo  $pomgo
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pomgo $pomgo)
+    public function destroy($id)
     {
         //
     }
