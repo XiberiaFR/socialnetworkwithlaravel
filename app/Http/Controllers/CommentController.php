@@ -59,7 +59,7 @@ class CommentController extends Controller
             'image' => $imageName,
         ]);
         }
-        
+
         return back()
             ->with('message', 'Félicitations, votre commentaire est publié.');
     }
@@ -83,7 +83,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        //
+        return view('comments.edit', compact('comment'));
     }
 
     /**
@@ -95,7 +95,19 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        $request->validate([
+            'comment-content' => ['required', 'string', 'max:500'],
+            'image_comment' => ['mimes:jpeg,png,jpg,gif,svg|max:2048'],
+            'pomgo-id-comment' => ['required', 'integer'],
+        ]);
+
+        $comment->content = $request->input('comment-content');
+        if(!empty($request->image_comment)) {
+            $comment->image = $request->input('image_comment');
+        }
+        $comment->pomgo_id = $request->input('pomgo-id-comment');        
+        $comment->save();
+        return redirect('home')->with('message', 'Félicitations, commentaire modifié');
     }
 
     /**
@@ -106,6 +118,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return back()
+            ->with('message', 'Félicitations, votre commentaire est supprimé');
     }
 }

@@ -65,7 +65,7 @@
     <div class="pomgos container">
         <div class="row justify-content-center" id="pomgos">
             @foreach($pomgos as $pomgo)
-            <div class="pomgo col-md-5 d-flex flex-column shadow m-3 bg-body rounded text-center">
+            <div class="pomgo col-md-12 d-flex flex-column shadow m-3 bg-body rounded text-center">
                 @if(Auth::user()->id == $pomgo->user_id)
                 <a class="m-3 btn btn-danger" href="{{ route('pomgo.edit', $pomgo) }}">Modifier</a>
                 @endif
@@ -80,6 +80,16 @@
                         <p>{{$comment->content}}</p>
                         <p>{{$comment->username}}</p>
                         <p class="text-right">{{$comment->user->pomgoname}} le {{$comment->created_at}}</p>
+                        @if(Auth::user()->id == $comment->user_id)
+                        <a class="col-md-5 mb-3 btn btn-danger" href="{{ route('comment.edit', $comment) }}">Modifier</a>
+
+                        <form method="POST" action="{{ route('comment.destroy', $comment) }}">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer</button>
+                        </form>
+
+                        @endif
                     </div>
                     @endforeach
 

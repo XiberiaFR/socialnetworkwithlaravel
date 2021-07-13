@@ -63,7 +63,7 @@
     <div class="pomgos container">
         <div class="row justify-content-center" id="pomgos">
             <?php $__currentLoopData = $pomgos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pomgo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="pomgo col-md-5 d-flex flex-column shadow m-3 bg-body rounded text-center">
+            <div class="pomgo col-md-12 d-flex flex-column shadow m-3 bg-body rounded text-center">
                 <?php if(Auth::user()->id == $pomgo->user_id): ?>
                 <a class="m-3 btn btn-danger" href="<?php echo e(route('pomgo.edit', $pomgo)); ?>">Modifier</a>
                 <?php endif; ?>
@@ -78,6 +78,18 @@
                         <p><?php echo e($comment->content); ?></p>
                         <p><?php echo e($comment->username); ?></p>
                         <p class="text-right"><?php echo e($comment->user->pomgoname); ?> le <?php echo e($comment->created_at); ?></p>
+                        <?php if(Auth::user()->id == $comment->user_id): ?>
+                        <a class="col-md-5 mb-3 btn btn-danger" href="<?php echo e(route('comment.edit', $comment)); ?>">Modifier</a>
+
+                        <form method="POST" action="<?php echo e(route('comment.destroy', $comment)); ?>">
+                            <?php echo e(csrf_field()); ?>
+
+                            <?php echo e(method_field('DELETE')); ?>
+
+                            <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer</button>
+                        </form>
+
+                        <?php endif; ?>
                     </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
