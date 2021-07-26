@@ -62,12 +62,25 @@
         </div>
     </div>
 
+    <div class="card mt-5 container">
+        <h5 class="card-header">Rechercher un pomgo</h5>
+        <form class="card-body" action="/search" method="GET" role="search">
+            {{ csrf_field() }}
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Écrivez un ou plusieurs mots ici" name="q">
+                <span class="input-group-btn">
+            <button class="ml-1 btn btn-secondary" type="submit">Je Pomgocherche!</button>
+          </span>
+            </div>
+        </form>
+    </div>
+
     <div class="pomgos container">
         <div class="row justify-content-center" id="pomgos">
             @foreach($pomgos as $pomgo)
-            <div class="pomgo col-md-12 d-flex flex-column shadow m-3 bg-body rounded text-center">
+            <div class="pomgo col-md-5 d-flex flex-column shadow m-3 bg-body rounded text-center">
                 @if(Auth::user()->id == $pomgo->user_id)
-                <a class="m-3 btn btn-danger" href="{{ route('pomgo.edit', $pomgo) }}">Modifier</a>
+                <a class="m-3 btn btn-info h5" href="{{ route('pomgo.edit', $pomgo) }}">Modifier le pomgo</a>
                 @endif
                 <img src="{{ asset('images') }}/{{ $pomgo->image }}" class="img-thumbnail" alt="">
                 <p>{{ $pomgo->content }}</p>
@@ -81,12 +94,12 @@
                         <p>{{$comment->username}}</p>
                         <p class="text-right">{{$comment->user->pomgoname}} le {{$comment->created_at}}</p>
                         @if(Auth::user()->id == $comment->user_id)
-                        <a class="col-md-5 mb-3 btn btn-danger" href="{{ route('comment.edit', $comment) }}">Modifier</a>
+                        <a class="col-md-5 mb-3 btn btn-info h5" href="{{ route('comment.edit', $comment) }}">Modifier le commentaire</a>
 
                         <form method="POST" action="{{ route('comment.destroy', $comment) }}">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-                            <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer</button>
+                            <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer le commentaire</button>
                         </form>
 
                         @endif

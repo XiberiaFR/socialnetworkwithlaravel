@@ -105,4 +105,22 @@ class PomgoController extends Controller
     {
         //
     }
+
+    public function search(Request $request, Pomgo $pomgo)
+    {
+
+        $recherche = trim($request->get('q'));
+
+        $pomgo = Pomgo::query()
+            ->where('content', 'like', "%{$recherche}%")
+            ->orWhere('tags', 'like', "%{$recherche}%")
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('search', [
+            'recherche' => $recherche,
+            'pomgos' => $pomgo,
+        ]);
+    }
+
 }

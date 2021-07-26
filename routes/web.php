@@ -33,6 +33,9 @@ Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ])
 
 Route::resource('/pomgo', App\Http\Controllers\PomgoController::class);
 
+Route::get('/search', [App\Http\Controllers\PomgoController::class, 'search']);
+
 // Concernant les commentaires //
 
 Route::resource('/comment', App\Http\Controllers\CommentController::class);
+

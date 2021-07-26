@@ -60,12 +60,26 @@
         </div>
     </div>
 
+    <div class="card mt-5 container">
+        <h5 class="card-header">Rechercher un pomgo</h5>
+        <form class="card-body" action="/search" method="GET" role="search">
+            <?php echo e(csrf_field()); ?>
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Écrivez un ou plusieurs mots ici" name="q">
+                <span class="input-group-btn">
+            <button class="ml-1 btn btn-secondary" type="submit">Je Pomgocherche!</button>
+          </span>
+            </div>
+        </form>
+    </div>
+
     <div class="pomgos container">
         <div class="row justify-content-center" id="pomgos">
             <?php $__currentLoopData = $pomgos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pomgo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="pomgo col-md-12 d-flex flex-column shadow m-3 bg-body rounded text-center">
+            <div class="pomgo col-md-5 d-flex flex-column shadow m-3 bg-body rounded text-center">
                 <?php if(Auth::user()->id == $pomgo->user_id): ?>
-                <a class="m-3 btn btn-danger" href="<?php echo e(route('pomgo.edit', $pomgo)); ?>">Modifier</a>
+                <a class="m-3 btn btn-info h5" href="<?php echo e(route('pomgo.edit', $pomgo)); ?>">Modifier le pomgo</a>
                 <?php endif; ?>
                 <img src="<?php echo e(asset('images')); ?>/<?php echo e($pomgo->image); ?>" class="img-thumbnail" alt="">
                 <p><?php echo e($pomgo->content); ?></p>
@@ -79,14 +93,14 @@
                         <p><?php echo e($comment->username); ?></p>
                         <p class="text-right"><?php echo e($comment->user->pomgoname); ?> le <?php echo e($comment->created_at); ?></p>
                         <?php if(Auth::user()->id == $comment->user_id): ?>
-                        <a class="col-md-5 mb-3 btn btn-danger" href="<?php echo e(route('comment.edit', $comment)); ?>">Modifier</a>
+                        <a class="col-md-5 mb-3 btn btn-info h5" href="<?php echo e(route('comment.edit', $comment)); ?>">Modifier le commentaire</a>
 
                         <form method="POST" action="<?php echo e(route('comment.destroy', $comment)); ?>">
                             <?php echo e(csrf_field()); ?>
 
                             <?php echo e(method_field('DELETE')); ?>
 
-                            <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer</button>
+                            <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer le commentaire</button>
                         </form>
 
                         <?php endif; ?>
