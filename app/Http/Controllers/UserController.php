@@ -55,10 +55,10 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'firstname' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'pomgoname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'firstname' => ['required', 'string', 'max:25'],
+            'name' => ['required', 'string', 'max:25'],
+            'pomgoname' => ['required', 'string', 'max:25'],
+            'email' => ['required', 'string', 'email', 'max:40'],
             'current_password' => ['required', new MatchOldPassword],
         ]);
         $user->prenom = $request->input('firstname');

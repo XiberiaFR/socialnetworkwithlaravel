@@ -23,7 +23,7 @@ class CreatePomgosTable extends Migration
             $table->softDeletes();
 
 
-            // $table->engine = 'InnoDB';
+            $table->engine = 'InnoDB';
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

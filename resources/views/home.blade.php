@@ -62,25 +62,30 @@
         </div>
     </div>
 
-    <div class="card mt-5 container">
-        <h5 class="card-header">Rechercher un pomgo</h5>
+    <div class="card mt-5 container" id="pomgos">
+        <h5 class="card-header bg-success text-white">Rechercher un pomgo</h5>
         <form class="card-body" action="/search" method="GET" role="search">
             {{ csrf_field() }}
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Écrivez un ou plusieurs mots ici" name="q">
                 <span class="input-group-btn">
-            <button class="ml-1 btn btn-secondary" type="submit">Je Pomgocherche!</button>
-          </span>
+                    <button class="ml-1 btn btn-success" type="submit">Je pomcherche!</button>
+                </span>
             </div>
         </form>
     </div>
 
     <div class="pomgos container">
-        <div class="row justify-content-center" id="pomgos">
+        <div class="row justify-content-center">
             @foreach($pomgos as $pomgo)
             <div class="pomgo col-md-5 d-flex flex-column shadow m-3 bg-body rounded text-center">
-                @if(Auth::user()->id == $pomgo->user_id)
+                @if(Auth::user()->id == $pomgo->user_id || Auth::user()->roles_id === 2)
                 <a class="m-3 btn btn-info h5" href="{{ route('pomgo.edit', $pomgo) }}">Modifier le pomgo</a>
+                <form method="POST" action="{{ route('pomgo.destroy', $pomgo) }}">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <button class="col-md-5 mb-1 btn btn-danger" type="submit">Supprimer le pomgo</button>
+                </form>
                 @endif
                 <img src="{{ asset('images') }}/{{ $pomgo->image }}" class="img-thumbnail" alt="">
                 <p>{{ $pomgo->content }}</p>
@@ -93,7 +98,7 @@
                         <p>{{$comment->content}}</p>
                         <p>{{$comment->username}}</p>
                         <p class="text-right">{{$comment->user->pomgoname}} le {{$comment->created_at}}</p>
-                        @if(Auth::user()->id == $comment->user_id)
+                        @if(Auth::user()->id == $comment->user_id || Auth::user()->id == $pomgo->user_id || Auth::user()->roles_id === 2)
                         <a class="col-md-5 mb-3 btn btn-info h5" href="{{ route('comment.edit', $comment) }}">Modifier le commentaire</a>
 
                         <form method="POST" action="{{ route('comment.destroy', $comment) }}">
@@ -118,6 +123,8 @@
                 </div>
             </div>
             @endforeach
+            <div class="col-md-4"> {{ $pomgos->links() }}
+            </div>
         </div>
     </div>
     @endsection

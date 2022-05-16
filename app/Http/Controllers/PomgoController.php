@@ -101,9 +101,11 @@ class PomgoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pomgo $pomgo)
     {
-        //
+        $pomgo->delete();
+        return back()
+            ->with('message', 'Félicitations, votre pomgo est supprimé');
     }
 
     public function search(Request $request, Pomgo $pomgo)

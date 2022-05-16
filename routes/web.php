@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes for project
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -34,6 +34,7 @@ Route::post('image-upload', [ ImageUploadController::class, 'imageUploadPost' ])
 Route::resource('/pomgo', App\Http\Controllers\PomgoController::class);
 
 Route::get('/search', [App\Http\Controllers\PomgoController::class, 'search']);
+
 
 // Concernant les commentaires //
 

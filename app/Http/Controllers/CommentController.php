@@ -42,7 +42,7 @@ class CommentController extends Controller
             'pomgo-id-comment' => ['required', 'integer'],
             'image_comment' => ['mimes:jpeg,png,jpg,gif,svg|max:2048'],
         ]);
-        
+        $imageName = 'noimage';
         if(!empty($request->image_comment)) {
         $imageName = time() . '.' . $request->image_comment->extension();
         $request->image_comment->move(public_path('images'), $imageName);
@@ -52,13 +52,8 @@ class CommentController extends Controller
             'content' => $request->input('comment-content'),
             'pomgo_id' => $request->input('pomgo-id-comment'),
             'user_id' => Auth::user()->id,
-        ]);
-        
-        if(!empty($request->image_comment)) {
-        Comment::create([
             'image' => $imageName,
         ]);
-        }
 
         return back()
             ->with('message', 'Félicitations, votre commentaire est publié.');

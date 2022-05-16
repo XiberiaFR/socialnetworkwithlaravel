@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pomgos = Pomgo::all()->sortByDesc('created_at');
+        $pomgos = Pomgo::orderByDesc('created_at')->paginate(3);
         $pomgos->load('user', 'comments.user');
         return view('home', compact('pomgos'));
     }

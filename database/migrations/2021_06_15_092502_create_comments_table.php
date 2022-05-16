@@ -17,13 +17,12 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pomgo_id');
             $table->text('content');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->softDeletes();
 
-            // $table->engine = 'InnoDB';
-
+            $table->engine = 'InnoDB';
 
             $table->foreign('pomgo_id')->references('id')->on('pomgos')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
